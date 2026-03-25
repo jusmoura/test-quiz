@@ -117,3 +117,27 @@ def test_choice_text_max_length():
 def test_choice_text_too_long():
     with pytest.raises(Exception):
         Choice(id=1, text='a' * 101)
+
+@pytest.fixture
+def sample_question():
+    q = Question(title='q1')
+    c1 = q.add_choice('a', False)
+    c2 = q.add_choice('b', True)
+    c3 = q.add_choice('c', False)
+    return q
+
+def test_fixture_has_choices(sample_question):
+    assert len(sample_question.choices) == 3
+
+
+def test_fixture_correct_choice(sample_question):
+    correct_ids = [c.id for c in sample_question.choices if c.is_correct]
+    assert len(correct_ids) == 1
+
+
+def test_fixture_correct_selected(sample_question):
+    correct_choice = [c for c in sample_question.choices if c.is_correct][0]
+
+    result = sample_question.correct_selected_choices([correct_choice.id])
+
+    assert result == [correct_choice.id]
