@@ -84,7 +84,7 @@ def test_set_correct_choices_invalid_id():
 
 
 def test_correct_selected_choices():
-    q = Question(title='q1')
+    q = Question(title='q1', max_selections=2)
     c1 = q.add_choice('a')
     c2 = q.add_choice('b', True)
 
